@@ -7,13 +7,13 @@ resource "aws_inspector_assessment_target" "myinspector" {
 }
 
 resource "aws_inspector_assessment_template" "template" {
-  name       = data.aws_region.current.name
+  name       = data.aws_region.current.region
   target_arn = aws_inspector_assessment_target.myinspector.arn
   duration   = 3600
 
   # https://docs.aws.amazon.com/inspector/latest/userguide/inspector_rules-arns.html
   rules_package_arns = [
-    var.network_reachability_arn[data.aws_region.current.name]
+    var.network_reachability_arn[data.aws_region.current.region]
   ]
   tags = var.tags
 }
