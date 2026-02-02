@@ -20,7 +20,7 @@ module "inspector2" {
   is_delegated_admin = true
   
   # Enable for all resource types
-  resource_types = ["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]
+  resource_types = ["ECR", "EC2", "LAMBDA"]
   
   # Enable for admin account and manage member accounts
   account_ids = [data.aws_caller_identity.current.account_id]
@@ -56,7 +56,7 @@ module "inspector2" {
   is_delegated_admin = false
   
   # Enable for all resource types
-  resource_types = ["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]
+  resource_types = ["ECR", "EC2", "LAMBDA"]
   
   # Only enable for current account
   account_ids = [data.aws_caller_identity.current.account_id]
@@ -73,7 +73,7 @@ module "inspector2" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | account_ids | List of AWS account IDs to enable Inspector v2 for | `list(string)` | `[]` | no |
-| resource_types | List of resource types to enable Inspector v2 scanning for | `list(string)` | `["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]` | no |
+| resource_types | List of resource types to enable Inspector v2 scanning for | `list(string)` | `["ECR", "EC2", "LAMBDA"]` | no |
 | is_delegated_admin | Whether this account should be configured as the delegated admin account | `bool` | `false` | no |
 | member_account_ids | List of member account IDs to associate (only used by delegated admin account) | `list(string)` | `[]` | no |
 | auto_enable_ec2 | Automatically enable Inspector v2 for EC2 instances in new accounts | `bool` | `true` | no |

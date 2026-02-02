@@ -9,7 +9,7 @@ variable "account_ids" {
 variable "resource_types" {
   description = "List of resource types to enable Inspector v2 scanning for"
   type        = list(string)
-  default     = ["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]
+  default     = ["ECR", "EC2", "LAMBDA"]
 }
 
 # Delegated Admin Configuration
