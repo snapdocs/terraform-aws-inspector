@@ -33,10 +33,9 @@ module "inspector2" {
   ]
   
   # Organization auto-enable settings for new accounts
-  auto_enable_ec2         = true
-  auto_enable_ecr         = true
-  auto_enable_lambda      = true
-  auto_enable_lambda_code = true
+  auto_enable_ec2    = true
+  auto_enable_ecr    = true
+  auto_enable_lambda = true
   
   tags = {
     Environment = "production"
@@ -80,7 +79,6 @@ module "inspector2" {
 | auto_enable_ec2 | Automatically enable Inspector v2 for EC2 instances in new accounts | `bool` | `true` | no |
 | auto_enable_ecr | Automatically enable Inspector v2 for ECR repositories in new accounts | `bool` | `true` | no |
 | auto_enable_lambda | Automatically enable Inspector v2 for Lambda functions in new accounts | `bool` | `true` | no |
-| auto_enable_lambda_code | Automatically enable Inspector v2 for Lambda function code in new accounts | `bool` | `true` | no |
 | tags | Tags to apply to resources | `map(string)` | `{}` | no |
 
 ## Outputs

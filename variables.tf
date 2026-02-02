@@ -44,11 +44,6 @@ variable "auto_enable_lambda" {
   default     = true
 }
 
-variable "auto_enable_lambda_code" {
-  description = "Automatically enable Inspector v2 for Lambda function code in new accounts"
-  type        = bool
-  default     = true
-}
 
 variable "tags" {
   description = "Tags to apply to resources"

@@ -22,9 +22,8 @@ output "member_associations" {
 output "organization_auto_enable_config" {
   description = "Organization auto-enable configuration"
   value = var.is_delegated_admin ? {
-    ec2         = var.auto_enable_ec2
-    ecr         = var.auto_enable_ecr
-    lambda      = var.auto_enable_lambda
-    lambda_code = var.auto_enable_lambda_code
+    ec2    = var.auto_enable_ec2
+    ecr    = var.auto_enable_ecr
+    lambda = var.auto_enable_lambda
   } : null
 }
