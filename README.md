@@ -155,3 +155,4 @@ This module implements a complete Inspector v2 organizational setup:
 - [Terraform aws_inspector2_enabler](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/inspector2_enabler)
 - [Terraform aws_inspector2_member_association](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/inspector2_member_association)
 - [Terraform aws_inspector2_filter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/inspector2_filter)
+
