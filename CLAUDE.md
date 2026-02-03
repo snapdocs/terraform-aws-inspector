@@ -51,3 +51,4 @@ This file contains specific directives for Claude when operating in GitHub Actio
 - Check that resource types are appropriate for the use case
 - Ensure admin vs member account configurations are correctly set
 - Validate that organization settings are only used by designated admin accounts
+
