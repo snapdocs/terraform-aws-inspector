@@ -29,10 +29,9 @@ resource "aws_inspector2_enabler" "inspector" {
   account_ids    = var.account_ids
   resource_types = var.resource_types
 
-  depends_on = [
-    aws_inspector2_delegated_admin_account.admin,
-    aws_inspector2_organization_configuration.org_config
-  ]
+  # Only depend on admin designation when it exists (delegated admin accounts)
+  # Organization configuration is not required for enablement
+  depends_on = var.is_delegated_admin ? [aws_inspector2_delegated_admin_account.admin] : []
 }
 
 # Member account association (only for admin account managing member accounts)
