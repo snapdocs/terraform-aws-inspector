@@ -1,0 +1,59 @@
+name: Claude Code
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  issues: write
+  actions: read # Required for Claude to read CI results on PRs
+
+jobs:
+  claude-code-action:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    uses: snapdocs/cicd-workflows/.github/workflows/claude.yaml@main
+    secrets: inherit
+
+  check-workflow-changes:
+    if: |
+      (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened') && github.event.pull_request.user.login != 'dependabot[bot]')
+    runs-on: ubuntu-latest
+    outputs:
+      workflow-changed: ${{ steps.check-changes.outputs.workflow-changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check for workflow file changes
+        id: check-changes
+        run: |
+          if git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -q "^\.github/workflows/claude\.yml$"; then
+            echo "workflow-changed=true" >> $GITHUB_OUTPUT
+            echo "Workflow file changed - skipping review to avoid validation errors"
+          else
+            echo "workflow-changed=false" >> $GITHUB_OUTPUT
+            echo "Workflow file unchanged - proceeding with review"
+          fi
+
+  claude-code-pr-review:
+    needs: check-workflow-changes
+    if: needs.check-workflow-changes.outputs.workflow-changed == 'false'
+    uses: snapdocs/cicd-workflows/.github/workflows/claude-pr-review.yaml@main
+    secrets: inherit
