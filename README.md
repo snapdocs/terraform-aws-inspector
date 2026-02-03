@@ -20,7 +20,7 @@ module "inspector2" {
   is_delegated_admin = true
   
   # Enable for all resource types
-  resource_types = ["ECR", "EC2", "LAMBDA"]
+  resource_types = ["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]
   
   # Enable for admin account and manage member accounts
   account_ids = [data.aws_caller_identity.current.account_id]
@@ -33,9 +33,10 @@ module "inspector2" {
   ]
   
   # Organization auto-enable settings for new accounts
-  auto_enable_ec2    = true
-  auto_enable_ecr    = true
-  auto_enable_lambda = true
+  auto_enable_ec2         = true
+  auto_enable_ecr         = true
+  auto_enable_lambda      = true
+  auto_enable_lambda_code = true
   
   tags = {
     Environment = "production"
@@ -56,7 +57,7 @@ module "inspector2" {
   is_delegated_admin = false
   
   # Enable for all resource types
-  resource_types = ["ECR", "EC2", "LAMBDA"]
+  resource_types = ["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]
   
   # Only enable for current account
   account_ids = [data.aws_caller_identity.current.account_id]
@@ -70,15 +71,18 @@ module "inspector2" {
 
 ## Variables
 
+> **⚠️ Important Note**: This is a reusable Terraform module. The `account_ids` variable intentionally defaults to an empty list to prevent misconfigurations. **You must explicitly specify which accounts to enable Inspector for.** The module includes validation to ensure at least one account ID is provided.
+
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| account_ids | List of AWS account IDs to enable Inspector v2 for | `list(string)` | `[]` | no |
-| resource_types | List of resource types to enable Inspector v2 scanning for | `list(string)` | `["ECR", "EC2", "LAMBDA"]` | no |
+| account_ids | List of AWS account IDs to enable Inspector v2 for | `list(string)` | `[]` | **yes** |
+| resource_types | List of resource types to enable Inspector v2 scanning for | `list(string)` | `["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]` | no |
 | is_delegated_admin | Whether this account should be configured as the delegated admin account | `bool` | `false` | no |
 | member_account_ids | List of member account IDs to associate (only used by delegated admin account) | `list(string)` | `[]` | no |
 | auto_enable_ec2 | Automatically enable Inspector v2 for EC2 instances in new accounts | `bool` | `true` | no |
 | auto_enable_ecr | Automatically enable Inspector v2 for ECR repositories in new accounts | `bool` | `true` | no |
 | auto_enable_lambda | Automatically enable Inspector v2 for Lambda functions in new accounts | `bool` | `true` | no |
+| auto_enable_lambda_code | Automatically enable Inspector v2 for Lambda function code in new accounts | `bool` | `true` | no |
 | tags | Tags to apply to resources | `map(string)` | `{}` | no |
 
 ## Outputs

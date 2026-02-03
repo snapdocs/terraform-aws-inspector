@@ -1,15 +1,20 @@
 
 # AWS Inspector v2 Configuration
 variable "account_ids" {
-  description = "List of AWS account IDs to enable Inspector v2 for"
+  description = "List of AWS account IDs to enable Inspector v2 for. REQUIRED: This module intentionally defaults to an empty list - the calling template MUST specify which accounts to enable Inspector for to prevent misconfigurations."
   type        = list(string)
   default     = []
+  
+  validation {
+    condition     = length(var.account_ids) > 0
+    error_message = "At least one account ID must be specified. This module requires explicit account specification to prevent misconfigurations."
+  }
 }
 
 variable "resource_types" {
   description = "List of resource types to enable Inspector v2 scanning for"
   type        = list(string)
-  default     = ["ECR", "EC2", "LAMBDA"]
+  default     = ["ECR", "EC2", "LAMBDA", "LAMBDA_CODE"]
 }
 
 # Delegated Admin Configuration
@@ -44,6 +49,11 @@ variable "auto_enable_lambda" {
   default     = true
 }
 
+variable "auto_enable_lambda_code" {
+  description = "Automatically enable Inspector v2 for Lambda function code in new accounts"
+  type        = bool
+  default     = true
+}
 
 variable "tags" {
   description = "Tags to apply to resources"

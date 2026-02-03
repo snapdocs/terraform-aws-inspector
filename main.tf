@@ -14,9 +14,10 @@ resource "aws_inspector2_organization_configuration" "org_config" {
   count = var.is_delegated_admin ? 1 : 0
   
   auto_enable {
-    ec2    = var.auto_enable_ec2
-    ecr    = var.auto_enable_ecr
-    lambda = var.auto_enable_lambda
+    ec2         = var.auto_enable_ec2
+    ecr         = var.auto_enable_ecr
+    lambda      = var.auto_enable_lambda
+    lambda_code = var.auto_enable_lambda_code
   }
 
   depends_on = [aws_inspector2_delegated_admin_account.admin]
