@@ -6,6 +6,7 @@ This file contains specific directives for Claude when operating in GitHub Actio
 
 ### 1. Comment Format
 - **DO NOT** post formal GitHub reviews (approve/request changes/comment review types)
+- **DO NOT** post comments to specific lines of code.  There should be no comments that need to be resolved. Delete any that exist.
 - **DO** post individual comments directly on pull requests
 - Use regular PR comments instead of review comments when providing feedback
 
